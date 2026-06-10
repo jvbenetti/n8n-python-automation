@@ -23,6 +23,12 @@ def criar_tarefa_clickup_simulada(dados_tratados: dict):
         "assignees": [12345],  # ID simulado de um responsável
     }
 
+    # SIMULAÇÃO DO ENVIO:
+    # Se fôssemos rodar de verdade, faríamos:
+    # response = requests.post(url_clickup, headers=headers, json=payload_clickup)
+    # if response.status_code == 200:
+    #    print("Tarefa criada com sucesso!")
+
     print("\n--- PAYLOAD MONTADO PARA A API DO CLICKUP ---")
     print(json.dumps(payload_clickup, indent=4, ensure_ascii=False))
     print("---------------------------------------------")
