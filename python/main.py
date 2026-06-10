@@ -1,8 +1,7 @@
 import os
 from dotenv import load_dotenv
-from utils.cleaner import tratar_dados
-from utils.db import salvar_no_supabase
 from supabase import create_client, Client
+from utils import tratar_dados, salvar_no_supabase, criar_tarefa_clickup_simulada
 
 def main() -> None:
     # --- 1. CONFIGURAÇÕES ---
@@ -29,6 +28,8 @@ def main() -> None:
     # --- 4. SALVAMENTO NO BANCO DE DADOS ---
     salvar_no_supabase(supabase, dados_tratados)
 
+    # --- 5. SIMULAÇÃO DE CRIAÇÃO DE TAREFA NO CLICKUP ---
+    criar_tarefa_clickup_simulada(dados_tratados)
 
 if __name__ == "__main__":
     try:

@@ -1,3 +1,5 @@
+import json
+
 def criar_tarefa_clickup_simulada(dados_tratados: dict):
     """Simula a criação de uma tarefa no ClickUp usando os dados tratados do lead."""
     print("\n🚀 Preparando criação de tarefa no ClickUp (Simulação)...")
@@ -7,7 +9,7 @@ def criar_tarefa_clickup_simulada(dados_tratados: dict):
     
     # Headers obrigatórios para APIs REST
     headers = {
-        "Authorization": "Bearer SUA_CHAVE_DE_API_CLICKUP_AQUI",
+        "Authorization": "Bearer CHAVE_DE_API_CLICKUP",
         "Content-Type": "application/json"
     }
     
@@ -19,3 +21,7 @@ def criar_tarefa_clickup_simulada(dados_tratados: dict):
         "priority": 3,
         "assignees": [12345] # ID simulado de um responsável
     }
+
+    print("\n--- PAYLOAD MONTADO PARA A API DO CLICKUP ---")
+    print(json.dumps(payload_clickup, indent=4, ensure_ascii=False))
+    print("---------------------------------------------")
