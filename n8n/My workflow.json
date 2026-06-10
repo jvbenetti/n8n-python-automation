@@ -1,0 +1,161 @@
+{
+  "name": "My workflow",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "6971c52c-c5f4-457e-aa13-053e8e4b030b",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "563e968a-be52-41f8-8b5b-8f9b17755e1b",
+      "name": "Webhook",
+      "webhookId": "6971c52c-c5f4-457e-aa13-053e8e4b030b"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "mode": "list",
+          "value": "models/gemini-3-flash-preview"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=Você é um especialista em redes sociais. Retorne APENAS um objeto JSON válido no formato {\"hashtags\": [\"#tag1\", \"#tag2\"]} contendo 5 hashtags otimizadas para a seguinte legenda: {{ $json.body.custom_fields.legenda }}"
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "builtInTools": {},
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1.2,
+      "position": [
+        288,
+        0
+      ],
+      "id": "913c2878-39b0-4a62-9735-2faf5d3f53af",
+      "name": "Message a model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "0y6h2kOCZnTXIZmd",
+          "name": "Google Gemini(PaLM) Api account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "tableId": "posts_aprovados",
+        "fieldsUi": {
+          "fieldValues": [
+            {
+              "fieldId": "nome_tarefa",
+              "fieldValue": "={{ $('Webhook').item.json.body.task_name }}"
+            },
+            {
+              "fieldId": "legenda",
+              "fieldValue": "={{ $('Webhook').item.json.body.custom_fields.legenda }}"
+            },
+            {
+              "fieldId": "hashtags",
+              "fieldValue": "={{ JSON.parse($json.content.parts[0].text.replace(/```json/gi, '').replace(/```/g, '').trim()).hashtags.join(', ') }}"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.supabase",
+      "typeVersion": 1,
+      "position": [
+        640,
+        0
+      ],
+      "id": "1029eca8-df40-49e3-89b8-6c14e29fb55f",
+      "name": "Create a row",
+      "credentials": {
+        "supabaseApi": {
+          "id": "bEk9HdoB8p9TQVPH",
+          "name": "Supabase account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "chatId": "8908902646",
+        "text": "=✅ *Nova postagem aprovada!*  *Tarefa:* {{ $('Webhook').item.json.body.task_name }} *Legenda:* {{ $('Webhook').item.json.body.custom_fields.legenda }}  🚀 *Hashtags Geradas:* {{ $json.hashtags }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.telegram",
+      "typeVersion": 1.2,
+      "position": [
+        848,
+        0
+      ],
+      "id": "2d8977b5-8009-465f-bb82-45a31ec68bd2",
+      "name": "Send a text message",
+      "webhookId": "40cd7e30-4901-48e2-acb8-bb4826e80ba9",
+      "credentials": {
+        "telegramApi": {
+          "id": "nECVkptVjwtb8B0a",
+          "name": "Telegram account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Message a model",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Message a model": {
+      "main": [
+        [
+          {
+            "node": "Create a row",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create a row": {
+      "main": [
+        [
+          {
+            "node": "Send a text message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate",
+    "availableInMCP": false
+  },
+  "versionId": "0d6e5e49-3ab7-48f7-91c2-704f0cfa571a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "db16a8d6184a5678677fda5e74011208a07e46d9cff3c033b9945e376bc6e63f"
+  },
+  "nodeGroups": [],
+  "id": "GdoRRYpi45hiul3n",
+  "tags": []
+}
