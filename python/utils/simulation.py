@@ -2,7 +2,7 @@ import json
 
 def criar_tarefa_clickup_simulada(dados_tratados: dict):
     """Simula a criação de uma tarefa no ClickUp usando os dados tratados do lead."""
-    print("\n🚀 Preparando criação de tarefa no ClickUp (Simulação)...")
+    print("\nPreparando criação de tarefa no ClickUp (Simulação)...")
     
     # URL fictícia da API do ClickUp
     url_clickup = "https://api.clickup.com/api/v2/list/12345678/task"

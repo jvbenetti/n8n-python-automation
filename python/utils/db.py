@@ -5,6 +5,6 @@ def salvar_no_supabase(supabase: Client, dados_tratados: dict):
     print("Salvando lead no Supabase...")
     try:
         data, count = supabase.table("leads_diagnostico").insert(dados_tratados).execute()
-        print(f"✅ Sucesso! Lead {dados_tratados['nome']} salvo no banco de dados.")
+        print(f"Sucesso! Lead {dados_tratados['nome']} salvo no banco de dados.")
     except Exception as e:
-         print(f"❌ Erro ao salvar no banco: {e}")
+         print(f"Erro ao salvar no banco: {e}")
