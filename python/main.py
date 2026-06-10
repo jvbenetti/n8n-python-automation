@@ -1,7 +1,8 @@
 import os
-import re
-from supabase import create_client, Client
 from dotenv import load_dotenv
+from utils.cleaner import tratar_dados
+from utils.db import salvar_no_supabase
+from supabase import create_client, Client
 
 def main() -> None:
     # --- 1. CONFIGURAÇÕES ---
@@ -21,6 +22,12 @@ def main() -> None:
         "especialidade": "Cardiologia",
         "principal_desafio": "Falta de tempo para gerir Instagram"
     }
+
+    # --- 3. TRATAMENTO DOS DADOS ---
+    dados_tratados = tratar_dados(payload_simulado)
+
+    # --- 4. SALVAMENTO NO BANCO DE DADOS ---
+    salvar_no_supabase(supabase, dados_tratados)
 
 
 if __name__ == "__main__":
